@@ -1,4 +1,14 @@
-import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CreateTableDto } from './dto/create-table.dto';
 import { UpdateTableDto } from './dto/update-table.dto';
@@ -20,7 +30,7 @@ export class TableController {
 
   @Get(':id')
   @ApiOperation({
-    summary: 'List one table via its id',
+    summary: 'List one table by its id',
   })
   findOne(@Param('id') id: string): Promise<Table> {
     return this.tableService.findOne(id);
@@ -36,9 +46,18 @@ export class TableController {
 
   @Patch(':id')
   @ApiOperation({
-    summary: 'Update one table via its id',
+    summary: 'Update one table by its id',
   })
   update(@Param('id') id: string, @Body() dto: UpdateTableDto): Promise<Table> {
     return this.tableService.update(id, dto);
+  }
+
+  @Delete(':id')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiOperation({
+    summary: 'Delete one table by its id',
+  })
+  delete(@Param('id') id: string) {
+    this.tableService.delete(id);
   }
 }
