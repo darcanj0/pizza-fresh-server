@@ -16,7 +16,7 @@ export class TableService {
     return this.prisma.table.findMany();
   }
 
-  async findById(id: string): Promise<Table> {
+  async verifyIdAndReturnTable(id: string): Promise<Table> {
     const record = await this.prisma.table.findUnique({ where: { id } });
 
     if (!record) {
@@ -27,7 +27,7 @@ export class TableService {
   }
 
   findOne(id: string): Promise<Table> {
-    return this.findById(id);
+    return this.verifyIdAndReturnTable(id);
   }
 
   create(dto: CreateTableDto): Promise<Table> {
@@ -37,9 +37,9 @@ export class TableService {
 
   async update(id: string, dto: UpdateTableDto): Promise<Table> {
     //check id with query
-    await this.findById(id);
+    await this.verifyIdAndReturnTable(id);
 
-    const data: Partial<Table> = { ...dto };
+    const data: UpdateTableDto = { ...dto };
     return this.prisma.table.update({
       where: { id },
       data,
@@ -47,7 +47,8 @@ export class TableService {
   }
 
   async delete(id: string) {
-    await this.prisma.table.delete({
+    await this.verifyIdAndReturnTable(id);
+    return this.prisma.table.delete({
       where: { id },
     });
   }
