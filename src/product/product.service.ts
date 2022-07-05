@@ -4,6 +4,7 @@ import {
   UnprocessableEntityException,
 } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { handleUniqueConstraintError } from 'src/utils/handle-error-contraint-unique.util';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { Product } from './entities/product.entity';
@@ -32,7 +33,7 @@ export class ProductService {
     const data = { ...dto };
     return this.prisma.product
       .create({ data })
-      .catch(this.handleUniqueConstraintError);
+      .catch(handleUniqueConstraintError);
   }
 
   async update(id: string, dto: UpdateProductDto): Promise<Product> {
@@ -40,19 +41,11 @@ export class ProductService {
     const data = { ...dto };
     return this.prisma.product
       .update({ where: { id }, data })
-      .catch(this.handleUniqueConstraintError);
+      .catch(handleUniqueConstraintError);
   }
 
   async remove(id: string) {
     await this.findById(id);
     await this.prisma.product.delete({ where: { id } });
-  }
-
-  handleUniqueConstraintError(error: Error): undefined {
-    const errorLines = error.message?.split('\n');
-    const lastErrorLine = errorLines[errorLines.length - 1]?.trim();
-    throw new UnprocessableEntityException(
-      lastErrorLine || 'An error occurred while executing the operation',
-    );
   }
 }
