@@ -1,9 +1,9 @@
 export class User {
   id?: string;
-  user_name: string;
   email: string;
-  image: string;
+  user_name: string;
   password: string;
-  created_at?: string;
-  updated_at?: string;
+  image: string;
+  created_at?: Date;
+  updated_at?: Date;
 }
