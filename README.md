@@ -26,6 +26,15 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
+[Check Swagger docs if you are running locally](http://localhost:3001/api)
+
+## Cloning
+
+```bash
+$ git clone https://github.com/darcanj0/steam-project.git
+```
+
+
 ## Installation
 
 ```bash
