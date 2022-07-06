@@ -1,0 +1,2 @@
+1) 1:N deletion -> creashes the app
+2) create a Customer Entity 1:1 (adress, cpf, phone)
