@@ -31,24 +31,35 @@ model user {
 }
 
 model product {
-  id          String @id @default(uuid())
-  title       String @unique
-  description String
-  price       Float
-  image       String
+  id            String          @id @default(uuid())
+  title         String          @unique
+  description   String
+  price         Float
+  image         String
+  order_producr order_product[]
 
   created_at DateTime @default(now())
   updated_at DateTime @default(now())
 }
 
 model order {
-  id       String @id @default(uuid())
-  user_id  String
-  table_id String
+  id            String          @id @default(uuid())
+  user_id       String
+  table_id      String
+  order_product order_product[]
 
   user  user  @relation(fields: [user_id], references: [id])
   table table @relation(fields: [table_id], references: [id])
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
+}
+
+model order_product {
+  id         String @id @default(uuid())
+  order_id   String
+  product_id String
+
+  order   order   @relation(fields: [order_id], references: [id])
+  product product @relation(fields: [product_id], references: [id])
 }
