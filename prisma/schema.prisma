@@ -10,19 +10,21 @@ datasource db {
 }
 
 model table {
-  id     String @id @default(uuid())
-  number Int    @unique
+  id     String  @id @default(uuid())
+  number Int     @unique
+  orders order[]
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }
 
 model user {
-  id        String @id @default(uuid())
-  email     String @unique
+  id        String  @id @default(uuid())
+  email     String  @unique
   user_name String
   password  String
   image     String
+  orders    order[]
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
@@ -37,4 +39,16 @@ model product {
 
   created_at DateTime @default(now())
   updated_at DateTime @default(now())
+}
+
+model order {
+  id       String @id @default(uuid())
+  user_id  String
+  table_id String
+
+  user  user  @relation(fields: [user_id], references: [id])
+  table table @relation(fields: [table_id], references: [id])
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 }
