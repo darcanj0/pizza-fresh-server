@@ -59,9 +59,9 @@ model order {
 model order_product {
   id         String @id @default(uuid())
   order_id   Int
-  product_id String
+  product_title String
   quantity   Int
 
   order   order   @relation(fields: [order_id], references: [id], onDelete: SetNull)
-  product product @relation(fields: [product_id], references: [id], onDelete: SetNull)
+  product product @relation(fields: [product_title], references: [title], onDelete: SetNull)
 }
