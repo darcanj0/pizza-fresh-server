@@ -70,10 +70,11 @@ model order {
 }
 
 model order_product {
-  id            String @id @default(uuid())
+  id            String  @id @default(uuid())
   order_id      Int
   product_title String
   quantity      Int
+  observation   String?
 
   order   order   @relation(fields: [order_id], references: [id], onDelete: Cascade)
   product product @relation(fields: [product_title], references: [title], onDelete: SetNull)

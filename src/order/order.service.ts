@@ -15,7 +15,9 @@ export class OrderService {
     table_number: true,
     active: true,
     user: { select: { id: true, user_name: true } },
-    products: { select: { product_title: true, quantity: true } },
+    products: {
+      select: { product_title: true, quantity: true, observation: true },
+    },
     created_at: true,
   };
 
@@ -29,6 +31,7 @@ export class OrderService {
           data: dto.products.map((product: OrderProducts) => ({
             product_title: product.product_title,
             quantity: product.quantity,
+            observation: product.observation,
           })),
         },
       },
@@ -40,7 +43,11 @@ export class OrderService {
 
   findAll(): Promise<Order[]> {
     return this.prisma.order.findMany({
-      select: { ...this.orderSelect, _count: { select: { products: true } } },
+      select: {
+        ...this.orderSelect,
+        _count: { select: { products: true } },
+        products: false,
+      },
     });
   }
 

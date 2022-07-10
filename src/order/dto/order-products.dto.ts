@@ -17,4 +17,6 @@ export class OrderProductsDto {
     example: 2,
   })
   quantity: number;
+  
+  observation: string;
 }
