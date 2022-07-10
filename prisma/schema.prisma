@@ -43,20 +43,22 @@ model product {
 }
 
 model order {
-  id            String          @id @default(uuid())
+  id            Int             @id @default(autoincrement())
   user_id       String
   table_number  Int
-  order_product order_product[]
+  active        Boolean         @default(true)
 
   user  user  @relation(fields: [user_id], references: [id])
   table table @relation(fields: [table_number], references: [number])
+
+  order_product order_product[]
 
   created_at DateTime @default(now())
 }
 
 model order_product {
   id         String @id @default(uuid())
-  order_id   String
+  order_id   Int
   product_id String
   quantity   Int
 

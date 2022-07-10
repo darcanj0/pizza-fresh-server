@@ -6,7 +6,7 @@ export class User {
   user_name: string;
   password: string;
   image: string;
-  orders?: Partial<Order>
+  orders?: Partial<Order>[];
   created_at?: Date;
   updated_at?: Date;
 }

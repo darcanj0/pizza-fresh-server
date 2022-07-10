@@ -12,17 +12,17 @@ import { User } from './entities/user.entity';
 
 @Injectable()
 export class UserService {
+  constructor(private readonly prisma: PrismaService) {}
   private userSelect = {
     id: true,
     email: true,
     user_name: true,
     password: false,
     image: true,
-    orders: {select: {id: true}},
+    orders: { select: { id: true, active: true } },
     created_at: true,
     updated_at: true,
   };
-  constructor(private readonly prisma: PrismaService) {}
 
   findAll(): Promise<User[]> {
     return this.prisma.user.findMany({ select: this.userSelect });
