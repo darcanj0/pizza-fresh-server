@@ -51,7 +51,7 @@ model order {
   user  user  @relation(fields: [user_id], references: [id])
   table table @relation(fields: [table_number], references: [number])
 
-  order_product order_product[]
+  products order_product[]
 
   created_at DateTime @default(now())
 }
