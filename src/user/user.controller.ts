@@ -11,6 +11,7 @@ import {
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CreateUserDto } from './dto/create-user.dto';
+import { FavoriteProductDto } from './dto/favorite-product.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserService } from './user.service';
 
@@ -33,6 +34,22 @@ export class UserController {
   })
   findOne(@Param('id') id: string) {
     return this.userService.findOne(id);
+  }
+
+  @Patch('favorite/:userId')
+  @ApiOperation({
+    summary: 'Favorite a product',
+  })
+  favorite(@Param('userId') id: string, @Body() dto: FavoriteProductDto) {
+    return this.userService.favorite(id, dto);
+  }
+
+  @Patch('unfavorite/:userId')
+  @ApiOperation({
+    summary: 'Unfavorite a product',
+  })
+  unfavorite(@Param('userId') id: string, @Body() dto: FavoriteProductDto) {
+    return this.userService.unfavorite(id, dto);
   }
 
   @Post()

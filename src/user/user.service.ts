@@ -1,12 +1,14 @@
 import {
   BadRequestException,
   Injectable,
-  NotFoundException
+  NotFoundException,
 } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import * as bcrypt from 'bcryptjs';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { handleError } from 'src/utils/handle-error.util';
 import { CreateUserDto } from './dto/create-user.dto';
+import { FavoriteProductDto } from './dto/favorite-product.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 
@@ -20,6 +22,7 @@ export class UserService {
     password: false,
     image: true,
     orders: { select: { id: true, active: true } },
+    favorite_products: { select: { id: true, title: true } },
     created_at: true,
     updated_at: true,
   };
@@ -41,6 +44,34 @@ export class UserService {
 
   findOne(id: string): Promise<User> {
     return this.verifyIdAndReturnUser(id);
+  }
+
+  async favorite(id: string, dto: FavoriteProductDto): Promise<User> {
+    await this.verifyIdAndReturnUser(id);
+    const data: Prisma.userUpdateInput = {
+      favorite_products: { connect: { id: dto.id } },
+    };
+    return this.prisma.user
+      .update({
+        where: { id },
+        data,
+        select: this.userSelect,
+      })
+      .catch(handleError);
+  }
+
+  async unfavorite(id: string, dto: FavoriteProductDto): Promise<User> {
+    await this.verifyIdAndReturnUser(id);
+    const data: Prisma.userUpdateInput = {
+      favorite_products: { disconnect: { id: dto.id } },
+    };
+    return this.prisma.user
+      .update({
+        where: { id },
+        data,
+        select: this.userSelect,
+      })
+      .catch(handleError);
   }
 
   async create(dto: CreateUserDto): Promise<User> {

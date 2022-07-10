@@ -19,20 +19,21 @@ model table {
 }
 
 model user {
-  id        String  @id @default(uuid())
-  email     String  @unique
-  user_name String
-  password  String
-  image     String
-  orders    order[]
+  id                String    @id @default(uuid())
+  email             String    @unique
+  user_name         String
+  password          String
+  image             String
+  orders            order[]
+  favorite_products product[]
 
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 }
 
 model category {
-  id Int @id @default(autoincrement())
-  title String @unique
+  id         Int      @id @default(autoincrement())
+  title      String   @unique
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
@@ -40,24 +41,25 @@ model category {
 }
 
 model product {
-  id            String          @id @default(uuid())
-  title         String          @unique
-  description   String
-  price         Float
-  image         String
-  category_title String?
-  category category? @relation(fields: [category_title], references: [title], onDelete: SetNull)
-  order_product order_product[]
+  id              String          @id @default(uuid())
+  title           String          @unique
+  description     String
+  price           Float
+  image           String
+  category_title  String?
+  category        category?       @relation(fields: [category_title], references: [title], onDelete: SetNull)
+  order_product   order_product[]
+  users_favorited user[]
 
   created_at DateTime @default(now())
   updated_at DateTime @default(now())
 }
 
 model order {
-  id            Int             @id @default(autoincrement())
-  user_id       String?
-  table_number  Int?
-  active        Boolean         @default(true)
+  id           Int     @id @default(autoincrement())
+  user_id      String?
+  table_number Int?
+  active       Boolean @default(true)
 
   user  user?  @relation(fields: [user_id], references: [id], onDelete: SetNull)
   table table? @relation(fields: [table_number], references: [number], onDelete: SetNull)
@@ -68,10 +70,10 @@ model order {
 }
 
 model order_product {
-  id         String @id @default(uuid())
-  order_id   Int
+  id            String @id @default(uuid())
+  order_id      Int
   product_title String
-  quantity   Int
+  quantity      Int
 
   order   order   @relation(fields: [order_id], references: [id], onDelete: Cascade)
   product product @relation(fields: [product_title], references: [title], onDelete: SetNull)

@@ -1,4 +1,5 @@
-import { Order } from "src/order/entities/order.entity";
+import { Order } from 'src/order/entities/order.entity';
+import { Product } from 'src/product/entities/product.entity';
 
 export class User {
   id?: string;
@@ -7,6 +8,7 @@ export class User {
   password: string;
   image: string;
   orders?: Partial<Order>[];
+  favorite_products?: Partial<Product>[];
   created_at?: Date;
   updated_at?: Date;
 }
