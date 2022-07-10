@@ -13,6 +13,7 @@ import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CreateUserDto } from './dto/create-user.dto';
 import { FavoriteProductDto } from './dto/favorite-product.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { User } from './entities/user.entity';
 import { UserService } from './user.service';
 
 @ApiTags('user')
@@ -24,7 +25,7 @@ export class UserController {
   @ApiOperation({
     summary: 'Lists all users',
   })
-  findAll() {
+  findAll(): Promise<User[]> {
     return this.userService.findAll();
   }
 
@@ -32,7 +33,7 @@ export class UserController {
   @ApiOperation({
     summary: 'List a user by id',
   })
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: string): Promise<User> {
     return this.userService.findOne(id);
   }
 
@@ -40,7 +41,7 @@ export class UserController {
   @ApiOperation({
     summary: 'Favorite a product',
   })
-  favorite(@Param('userId') id: string, @Body() dto: FavoriteProductDto) {
+  favorite(@Param('userId') id: string, @Body() dto: FavoriteProductDto): Promise<User> {
     return this.userService.favorite(id, dto);
   }
 
@@ -48,7 +49,7 @@ export class UserController {
   @ApiOperation({
     summary: 'Unfavorite a product',
   })
-  unfavorite(@Param('userId') id: string, @Body() dto: FavoriteProductDto) {
+  unfavorite(@Param('userId') id: string, @Body() dto: FavoriteProductDto): Promise<User> {
     return this.userService.unfavorite(id, dto);
   }
 
@@ -56,7 +57,7 @@ export class UserController {
   @ApiOperation({
     summary: 'Create a new user',
   })
-  create(@Body() dto: CreateUserDto) {
+  create(@Body() dto: CreateUserDto): Promise<User> {
     return this.userService.create(dto);
   }
 
@@ -64,7 +65,7 @@ export class UserController {
   @ApiOperation({
     summary: 'Updates a user by id',
   })
-  update(@Param('id') id: string, @Body() dto: UpdateUserDto) {
+  update(@Param('id') id: string, @Body() dto: UpdateUserDto): Promise<User> {
     return this.userService.update(id, dto);
   }
 
