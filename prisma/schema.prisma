@@ -30,12 +30,23 @@ model user {
   updated_at DateTime @updatedAt
 }
 
+model category {
+  id Int @id @default(autoincrement())
+  title String @unique
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  products product[]
+}
+
 model product {
   id            String          @id @default(uuid())
   title         String          @unique
   description   String
   price         Float
   image         String
+  category_title String?
+  category category? @relation(fields: [category_title], references: [title], onDelete: SetNull)
   order_product order_product[]
 
   created_at DateTime @default(now())

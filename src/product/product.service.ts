@@ -1,8 +1,5 @@
-import {
-  Injectable,
-  NotFoundException,
-  UnprocessableEntityException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { handleError } from 'src/utils/handle-error.util';
 import { CreateProductDto } from './dto/create-product.dto';
@@ -13,12 +10,26 @@ import { Product } from './entities/product.entity';
 export class ProductService {
   constructor(private readonly prisma: PrismaService) {}
 
+  private productSelect = {
+    id: true,
+    title: true,
+    price: true,
+    description: true,
+    image: true,
+    category_title: true,
+    created_at: true,
+    updated_at: true,
+  };
+
   findAll(): Promise<Product[]> {
-    return this.prisma.product.findMany();
+    return this.prisma.product.findMany({ select: this.productSelect });
   }
 
   async findById(id: string): Promise<Product> {
-    const record = await this.prisma.product.findUnique({ where: { id } });
+    const record = await this.prisma.product.findUnique({
+      where: { id },
+      select: this.productSelect,
+    });
     if (!record) {
       throw new NotFoundException(`Id ${id} register was not found.`);
     }
@@ -32,7 +43,7 @@ export class ProductService {
   create(dto: CreateProductDto): Promise<Product> {
     const data = { ...dto };
     return this.prisma.product
-      .create({ data })
+      .create({ data, select: this.productSelect })
       .catch(handleError);
   }
 
@@ -40,7 +51,7 @@ export class ProductService {
     await this.findById(id);
     const data = { ...dto };
     return this.prisma.product
-      .update({ where: { id }, data })
+      .update({ where: { id }, data, select: this.productSelect })
       .catch(handleError);
   }
 
