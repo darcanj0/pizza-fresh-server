@@ -1,15 +1,14 @@
 import {
   BadRequestException,
   Injectable,
-  NotFoundException,
-  UnprocessableEntityException,
+  NotFoundException
 } from '@nestjs/common';
+import * as bcrypt from 'bcryptjs';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { handleUniqueConstraintError } from 'src/utils/handle-error-contraint-unique.util';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
-import * as bcrypt from 'bcryptjs';
-import { handleUniqueConstraintError } from 'src/utils/handle-error-contraint-unique.util';
 
 @Injectable()
 export class UserService {
@@ -19,6 +18,7 @@ export class UserService {
     user_name: true,
     password: false,
     image: true,
+    orders: {select: {id: true}},
     created_at: true,
     updated_at: true,
   };
