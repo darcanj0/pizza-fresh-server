@@ -39,7 +39,9 @@ export class OrderService {
   }
 
   findAll(): Promise<Order[]> {
-    return this.prisma.order.findMany({ select: this.orderSelect });
+    return this.prisma.order.findMany({
+      select: { ...this.orderSelect, _count: { select: { products: true } } },
+    });
   }
 
   findAllActives(): Promise<Order[]> {
