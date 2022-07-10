@@ -6,6 +6,7 @@ import {
   HttpCode,
   HttpStatus,
   Param,
+  Patch,
   Post,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
@@ -48,6 +49,14 @@ export class OrderController {
   })
   findOne(@Param('id') id: number): Promise<Order> {
     return this.orderService.findOne(+id);
+  }
+
+  @Patch(':id')
+  @ApiOperation({
+    summary: 'Deactivate an active order'
+  })
+  deactivateOne(@Param('id') id:number) {
+    return this.orderService.deactivateOne(+id)
   }
 
   @Delete(':id')

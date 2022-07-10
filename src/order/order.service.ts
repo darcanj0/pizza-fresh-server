@@ -61,6 +61,11 @@ export class OrderService {
     return this.findById(id);
   }
 
+  async deactivateOne(id: number) {
+    await this.findById(id);
+    return this.prisma.order.update({ where: { id }, data: { active: false } });
+  }
+
   async remove(id: number) {
     await this.findById(id);
     return this.prisma.order.delete({ where: { id } });
