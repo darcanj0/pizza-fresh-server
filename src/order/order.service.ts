@@ -12,9 +12,9 @@ export class OrderService {
 
   private orderSelect = {
     id: true,
-    user_id: true,
     table_number: true,
     active: true,
+    user: { select: { id: true, user_name: true } },
     products: { select: { product_title: true, quantity: true } },
     created_at: true,
   };

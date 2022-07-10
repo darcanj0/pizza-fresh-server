@@ -3,7 +3,7 @@ import { OrderProducts } from "./order-products.entity";
 
 export class Order {
     id?: number;
-    user_id: string;
+    user_id?: string;
     table_number: number;
     active: boolean;
     user?: Partial<User>
