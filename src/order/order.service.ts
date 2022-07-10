@@ -19,7 +19,7 @@ export class OrderService {
     created_at: true,
   };
 
-  create(dto: CreateOrderDto) {
+  create(dto: CreateOrderDto): Promise<Order> {
     const data: Prisma.orderCreateInput = {
       active: dto.active,
       table: { connect: { number: dto.table_number } },
@@ -33,11 +33,17 @@ export class OrderService {
         },
       },
     };
-    return this.prisma.order.create({ data, select: this.orderSelect }).catch(handleError);
+    return this.prisma.order
+      .create({ data, select: this.orderSelect })
+      .catch(handleError);
   }
 
   findAll(): Promise<Order[]> {
     return this.prisma.order.findMany({ select: this.orderSelect });
+  }
+
+  findAllActives(): Promise<Order[]> {
+    return this.prisma.order.findMany({ where: { active: true } });
   }
 
   async findById(id: number): Promise<Order> {
