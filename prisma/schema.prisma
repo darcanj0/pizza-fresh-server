@@ -44,12 +44,12 @@ model product {
 
 model order {
   id            Int             @id @default(autoincrement())
-  user_id       String
-  table_number  Int
+  user_id       String?
+  table_number  Int?
   active        Boolean         @default(true)
 
-  user  user  @relation(fields: [user_id], references: [id])
-  table table @relation(fields: [table_number], references: [number])
+  user  user?  @relation(fields: [user_id], references: [id], onDelete: SetNull)
+  table table? @relation(fields: [table_number], references: [number], onDelete: SetNull)
 
   products order_product[]
 
@@ -62,6 +62,6 @@ model order_product {
   product_title String
   quantity   Int
 
-  order   order   @relation(fields: [order_id], references: [id], onDelete: SetNull)
+  order   order   @relation(fields: [order_id], references: [id], onDelete: Cascade)
   product product @relation(fields: [product_title], references: [title], onDelete: SetNull)
 }

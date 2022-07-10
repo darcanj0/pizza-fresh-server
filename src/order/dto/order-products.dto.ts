@@ -1,11 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsInt, IsPositive, IsUUID } from 'class-validator';
+import { IsInt, IsNotEmpty, IsPositive, IsString } from 'class-validator';
 
 export class OrderProductsDto {
-  @IsUUID()
+  @IsString()
+  @IsNotEmpty()
   @ApiProperty({
-    description: 'Id from the product ordered',
-    example: 'Insert here the product ID',
+    description: 'Title of the ordered product',
+    example: 'Insert here the product title',
   })
   product_title: string;
 

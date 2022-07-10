@@ -38,7 +38,7 @@ export class OrderController {
     summary: 'Read an order by id',
   })
   findOne(@Param('id') id: number) {
-    return this.orderService.findOne(id);
+    return this.orderService.findOne(+id);
   }
 
   @Delete(':id')
@@ -47,6 +47,6 @@ export class OrderController {
     summary: 'Delete an order record by id',
   })
   remove(@Param('id') id: number) {
-    return this.orderService.remove(id);
+    return this.orderService.remove(+id);
   }
 }

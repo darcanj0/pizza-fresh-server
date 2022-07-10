@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import * as bcrypt from 'bcryptjs';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { handleUniqueConstraintError } from 'src/utils/handle-error-contraint-unique.util';
+import { handleError } from 'src/utils/handle-error.util';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
@@ -51,7 +51,7 @@ export class UserService {
     const data: User = { ...dto, password: await bcrypt.hash(dto.password, 8) };
     return this.prisma.user
       .create({ data, select: this.userSelect })
-      .catch(handleUniqueConstraintError);
+      .catch(handleError);
   }
 
   async update(id: string, dto: UpdateUserDto): Promise<User> {
@@ -76,7 +76,7 @@ export class UserService {
         data,
         select: this.userSelect,
       })
-      .catch(handleUniqueConstraintError);
+      .catch(handleError);
   }
 
   async remove(id: string) {

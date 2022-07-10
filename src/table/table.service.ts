@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { handleUniqueConstraintError } from 'src/utils/handle-error-contraint-unique.util';
+import { handleError } from 'src/utils/handle-error.util';
 import { CreateTableDto } from './dto/create-table.dto';
 import { UpdateTableDto } from './dto/update-table.dto';
 import { Table } from './entities/table.entity';
@@ -44,7 +44,7 @@ export class TableService {
     const data: Table = { ...dto };
     return this.prisma.table
       .create({ data, select: this.tableSelect })
-      .catch(handleUniqueConstraintError);
+      .catch(handleError);
   }
 
   async update(id: string, dto: UpdateTableDto): Promise<Table> {
@@ -58,7 +58,7 @@ export class TableService {
         data,
         select: this.tableSelect,
       })
-      .catch(handleUniqueConstraintError);
+      .catch(handleError);
   }
 
   async delete(id: string) {

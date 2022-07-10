@@ -1,7 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { handleError } from 'src/utils/handle-error.util';
 import { CreateOrderDto } from './dto/create-order.dto';
+import { OrderProducts } from './entities/order-products.entity';
 import { Order } from './entities/order.entity';
 
 @Injectable()
@@ -17,8 +19,21 @@ export class OrderService {
     created_at: true,
   };
 
-  create(createOrderDto: CreateOrderDto) {
-    return 'This action adds a new order';
+  create(dto: CreateOrderDto) {
+    const data: Prisma.orderCreateInput = {
+      active: dto.active,
+      table: { connect: { number: dto.table_number } },
+      user: { connect: { id: dto.user_id } },
+      products: {
+        createMany: {
+          data: dto.products.map((product: OrderProducts) => ({
+            product_title: product.product_title,
+            quantity: product.quantity,
+          })),
+        },
+      },
+    };
+    return this.prisma.order.create({ data, select: this.orderSelect }).catch(handleError);
   }
 
   findAll(): Promise<Order[]> {
