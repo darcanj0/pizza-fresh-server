@@ -1,5 +1,6 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { handleError } from 'src/utils/handle-error.util';
 import { CreateCategoryDto } from './dto/create-category.dto';
 
 @Injectable()
@@ -7,22 +8,36 @@ export class CategoryService {
   constructor(private readonly prisma: PrismaService) {}
 
   create(dto: CreateCategoryDto) {
-    return 'This action adds a new category';
+    const data = { ...dto };
+    return this.prisma.category.create({ data }).catch(handleError);
   }
 
   findAll() {
-    return `This action returns all category`;
+    return this.prisma.category.findMany();
+  }
+
+  async findById(id: number) {
+    const record = await this.prisma.category.findUnique({ where: { id } });
+    if (!record) {
+      throw new NotFoundException(`Id ${id} register was not found`);
+    }
+    return record;
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} category`;
+    return this.findById(id);
   }
 
-  update(id: number, dto: CreateCategoryDto) {
-    return `This action updates a #${id} category`;
+  async update(id: number, dto: CreateCategoryDto) {
+    await this.findById(id);
+    const data = { ...dto };
+    return this.prisma.category
+      .update({ where: { id }, data })
+      .catch(handleError);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} category`;
+  async remove(id: number) {
+    await this.findById(id);
+    return this.prisma.category.delete({ where: { id } });
   }
 }
