@@ -43,7 +43,10 @@ export class OrderService {
   }
 
   findAllActives(): Promise<Order[]> {
-    return this.prisma.order.findMany({ where: { active: true } });
+    return this.prisma.order.findMany({
+      where: { active: true },
+      select: this.orderSelect,
+    });
   }
 
   async findById(id: number): Promise<Order> {
