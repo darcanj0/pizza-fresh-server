@@ -36,7 +36,7 @@ model product {
   description   String
   price         Float
   image         String
-  order_producr order_product[]
+  order_product order_product[]
 
   created_at DateTime @default(now())
   updated_at DateTime @default(now())
@@ -45,21 +45,21 @@ model product {
 model order {
   id            String          @id @default(uuid())
   user_id       String
-  table_id      String
+  table_number  Int
   order_product order_product[]
 
   user  user  @relation(fields: [user_id], references: [id])
-  table table @relation(fields: [table_id], references: [id])
+  table table @relation(fields: [table_number], references: [number])
 
   created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
 }
 
 model order_product {
   id         String @id @default(uuid())
   order_id   String
   product_id String
+  quantity   Int
 
-  order   order   @relation(fields: [order_id], references: [id])
-  product product @relation(fields: [product_id], references: [id])
+  order   order   @relation(fields: [order_id], references: [id], onDelete: SetNull)
+  product product @relation(fields: [product_id], references: [id], onDelete: SetNull)
 }
