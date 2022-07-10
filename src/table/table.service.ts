@@ -1,8 +1,5 @@
-import {
-  Injectable,
-  NotFoundException,
-  UnprocessableEntityException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { handleUniqueConstraintError } from 'src/utils/handle-error-contraint-unique.util';
 import { CreateTableDto } from './dto/create-table.dto';
@@ -12,13 +9,25 @@ import { Table } from './entities/table.entity';
 @Injectable()
 export class TableService {
   constructor(private readonly prisma: PrismaService) {}
+  private tableSelect = {
+    id: true,
+    number: true,
+    orders: {
+      select: { id: true, user: { select: { id: true, user_name: true } } },
+    },
+    created_at: true,
+    updated_at: true,
+  };
 
   findAll(): Promise<Table[]> {
-    return this.prisma.table.findMany();
+    return this.prisma.table.findMany({ select: this.tableSelect });
   }
 
   async verifyIdAndReturnTable(id: string): Promise<Table> {
-    const record = await this.prisma.table.findUnique({ where: { id } });
+    const record = await this.prisma.table.findUnique({
+      where: { id },
+      select: this.tableSelect,
+    });
 
     if (!record) {
       throw new NotFoundException(`Id '${id}' register was not found.`);
@@ -34,7 +43,7 @@ export class TableService {
   create(dto: CreateTableDto): Promise<Table> {
     const data: Table = { ...dto };
     return this.prisma.table
-      .create({ data })
+      .create({ data, select: this.tableSelect })
       .catch(handleUniqueConstraintError);
   }
 
@@ -47,6 +56,7 @@ export class TableService {
       .update({
         where: { id },
         data,
+        select: this.tableSelect,
       })
       .catch(handleUniqueConstraintError);
   }
