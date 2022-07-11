@@ -78,4 +78,6 @@ model order_product {
 
   order   order   @relation(fields: [order_id], references: [id], onDelete: Cascade)
   product product @relation(fields: [product_title], references: [title], onDelete: SetNull)
+
+  @@unique([product_title, order_id])
 }
