@@ -20,7 +20,7 @@ export class CreateUserDto {
   @IsString()
   @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/, {
     message:
-      'Your password is too weak. User 8 characters at least, 1 lower case, 1 upper case, a number and a special character',
+      'Your password is too weak. Use 8 characters at least, 1 lower case, 1 upper case, a number and a special character',
   })
   @ApiProperty({
     description: `At least 1 lowercase alphabetical\nat least 1 uppercase alphabetical\nat least 1 numeric\none special character`,
