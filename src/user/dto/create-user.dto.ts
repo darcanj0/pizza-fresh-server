@@ -1,5 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty, IsString, IsUrl, Matches } from 'class-validator';
+import {
+  IsBoolean,
+  IsEmail,
+  IsNotEmpty,
+  IsString,
+  IsUrl,
+  Matches,
+} from 'class-validator';
 
 export class CreateUserDto {
   @IsEmail()
@@ -41,4 +48,12 @@ export class CreateUserDto {
     example: 'https://wallpaperaccess.com/full/6999296.jpg',
   })
   image: string;
+
+  @IsBoolean()
+  @ApiProperty({
+    description:
+      'Boolean that indicates wether the user will be an admin or not',
+    example: true,
+  })
+  is_admin: boolean;
 }

@@ -7,6 +7,7 @@ export class User {
   user_name: string;
   password: string;
   image: string;
+  is_admin: boolean;
   orders?: Partial<Order>[];
   favorite_products?: Partial<Product>[];
   created_at?: Date;

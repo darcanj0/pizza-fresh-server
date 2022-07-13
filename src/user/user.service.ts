@@ -21,6 +21,7 @@ export class UserService {
     user_name: true,
     password: false,
     image: true,
+    is_admin: true,
     orders: { select: { id: true, active: true } },
     favorite_products: { select: { id: true, title: true } },
     created_at: true,

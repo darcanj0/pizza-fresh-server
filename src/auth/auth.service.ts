@@ -18,6 +18,7 @@ export class AuthService {
     user_name: true,
     password: false,
     image: true,
+    is_admin: true,
     orders: { select: { id: true, active: true } },
     favorite_products: { select: { id: true, title: true } },
     created_at: true,
@@ -41,6 +42,6 @@ export class AuthService {
         'User email and/or password are incorrect',
       );
     }
-    return { user, token: this.jwtService.sign({email, is_admin: user}) };
+    return { user, token: this.jwtService.sign({email}) };
   }
 }
