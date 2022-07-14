@@ -26,7 +26,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
 }
 
 @Injectable()
-export class JwtAdmStrategy extends PassportStrategy(Strategy) {
+export class JwtAdmOnlyStrategy extends PassportStrategy(Strategy, 'admin') {
   constructor(private readonly prisma: PrismaService) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),

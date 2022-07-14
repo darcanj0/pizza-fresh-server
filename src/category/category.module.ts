@@ -1,21 +1,17 @@
 import { Module } from '@nestjs/common';
-import { CategoryService } from './category.service';
-import { CategoryController } from './category.controller';
-import { PrismaModule } from 'src/prisma/prisma.module';
-import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
-import { JwtAdmStrategy } from 'src/auth/jwt.strategy';
+import { PassportModule } from '@nestjs/passport';
+import { JwtAdmOnlyStrategy } from 'src/auth/jwt.strategies';
+import { PrismaModule } from 'src/prisma/prisma.module';
+import { CategoryController } from './category.controller';
+import { CategoryService } from './category.service';
 
 @Module({
   imports: [
     PrismaModule,
-    PassportModule.register({ defaultStrategy: 'jwt' }),
-    JwtModule.register({
-      secret: process.env.JWT_SECRET,
-      signOptions: { expiresIn: '8h' },
-    }),
+    PassportModule.register({ defaultStrategy: 'admin' }),
   ],
   controllers: [CategoryController],
-  providers: [CategoryService, JwtAdmStrategy],
+  providers: [CategoryService, JwtAdmOnlyStrategy],
 })
 export class CategoryModule {}
