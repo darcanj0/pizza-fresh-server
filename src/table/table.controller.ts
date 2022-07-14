@@ -8,8 +8,10 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from '@nestjs/passport';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CreateTableDto } from './dto/create-table.dto';
 import { UpdateTableDto } from './dto/update-table.dto';
 import { Table } from './entities/table.entity';
@@ -21,6 +23,8 @@ export class TableController {
   constructor(private tableService: TableService) {}
 
   @Get()
+  @UseGuards(AuthGuard('admin'))
+  @ApiBearerAuth()
   @ApiOperation({
     summary: 'List all tables',
   })
@@ -29,6 +33,8 @@ export class TableController {
   }
 
   @Get(':id')
+  @UseGuards(AuthGuard('jwt'))
+  @ApiBearerAuth()
   @ApiOperation({
     summary: 'List one table by its id',
   })
@@ -37,6 +43,8 @@ export class TableController {
   }
 
   @Post()
+  @UseGuards(AuthGuard('admin'))
+  @ApiBearerAuth()
   @ApiOperation({
     summary: 'Create one table',
   })
@@ -45,6 +53,8 @@ export class TableController {
   }
 
   @Patch(':id')
+  @UseGuards(AuthGuard('admin'))
+  @ApiBearerAuth()
   @ApiOperation({
     summary: 'Update one table by its id',
   })
@@ -53,6 +63,8 @@ export class TableController {
   }
 
   @Delete(':id')
+  @UseGuards(AuthGuard('admin'))
+  @ApiBearerAuth()
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiOperation({
     summary: 'Delete one table by its id',
