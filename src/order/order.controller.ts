@@ -8,8 +8,10 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from '@nestjs/passport';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { Order } from './entities/order.entity';
 import { OrderService } from './order.service';
@@ -20,6 +22,8 @@ export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 
   @Post()
+  @UseGuards(AuthGuard('jwt'))
+  @ApiBearerAuth()
   @ApiOperation({
     summary: 'Create a new order',
   })
@@ -28,6 +32,8 @@ export class OrderController {
   }
 
   @Get()
+  @UseGuards(AuthGuard('admin'))
+  @ApiBearerAuth()
   @ApiOperation({
     summary: 'List all orders',
   })
@@ -36,6 +42,8 @@ export class OrderController {
   }
 
   @Get('active')
+  @UseGuards(AuthGuard('admin'))
+  @ApiBearerAuth()
   @ApiOperation({
     summary: 'List all active orders',
   })
@@ -44,6 +52,8 @@ export class OrderController {
   }
 
   @Get(':id')
+  @UseGuards(AuthGuard('jwt'))
+  @ApiBearerAuth()
   @ApiOperation({
     summary: 'Read an order by id',
   })
@@ -52,6 +62,8 @@ export class OrderController {
   }
 
   @Patch(':id')
+  @UseGuards(AuthGuard('jwt'))
+  @ApiBearerAuth()
   @ApiOperation({
     summary: 'Deactivate an active order'
   })
@@ -60,6 +72,8 @@ export class OrderController {
   }
 
   @Delete(':id')
+  @UseGuards(AuthGuard('admin'))
+  @ApiBearerAuth()
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiOperation({
     summary: 'Delete an order record by id',
