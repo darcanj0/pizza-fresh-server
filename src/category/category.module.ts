@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { JwtAdmOnlyStrategy } from 'src/auth/jwt.strategies';
 import { PrismaModule } from 'src/prisma/prisma.module';
