@@ -28,6 +28,8 @@
 
 [Check Swagger docs if you are running locally](http://localhost:3001/api)
 
+[Check production environment docs](https://pizza-fresh-server-production-87fe.up.railway.app/api/)
+
 ## Cloning
 
 ```bash
