@@ -8,10 +8,12 @@ import {
   Param,
   Patch,
   Post,
+  UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { LoggedUser } from 'src/auth/logged-user.decorator.dto';
 import { CreateUserDto } from './dto/create-user.dto';
 import { FavoriteProductDto } from './dto/favorite-product.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -39,7 +41,10 @@ export class UserController {
   @ApiOperation({
     summary: 'List a user by id',
   })
-  findOne(@Param('id') id: string): Promise<User> {
+  findOne(@Param('id') id: string, @LoggedUser() user: User): Promise<User> {
+    if (user.id != id && !user.is_admin) {
+      throw new UnauthorizedException('User does not exist or is unauthorized');
+    }
     return this.userService.findOne(id);
   }
 
@@ -77,7 +82,10 @@ export class UserController {
   @ApiOperation({
     summary: 'Updates a user by id',
   })
-  update(@Param('id') id: string, @Body() dto: UpdateUserDto): Promise<User> {
+  update(@Param('id') id: string, @Body() dto: UpdateUserDto, @LoggedUser() user: User): Promise<User> {
+    if (user.id != id) {
+      throw new UnauthorizedException('User does not exist or is unauthorized');
+    }
     return this.userService.update(id, dto);
   }
 
@@ -88,7 +96,10 @@ export class UserController {
   @ApiOperation({
     summary: 'Deletes a user by id',
   })
-  remove(@Param('id') id: string) {
+  remove(@Param('id') id: string, @LoggedUser() user: User) {
+    if (user.id != id && !user.is_admin) {
+      throw new UnauthorizedException('User does not exist or is unauthorized');
+    }
     return this.userService.remove(id);
   }
 }
