@@ -35,6 +35,12 @@ export class UserController {
     return this.userService.findAll();
   }
 
+  verifySelfOperation(idParam: string, user: User) {
+    if (user.id != idParam && !user.is_admin) {
+      throw new UnauthorizedException('User does not exist or is unauthorized')
+    }
+  }
+
   @Get(':id')
   @UseGuards(AuthGuard('jwt'))
   @ApiBearerAuth()
@@ -42,9 +48,7 @@ export class UserController {
     summary: 'List a user by id',
   })
   findOne(@Param('id') id: string, @LoggedUser() user: User): Promise<User> {
-    if (user.id != id && !user.is_admin) {
-      throw new UnauthorizedException('User does not exist or is unauthorized');
-    }
+    this.verifySelfOperation(id, user);
     return this.userService.findOne(id);
   }
 
@@ -97,9 +101,7 @@ export class UserController {
     summary: 'Deletes a user by id',
   })
   remove(@Param('id') id: string, @LoggedUser() user: User) {
-    if (user.id != id && !user.is_admin) {
-      throw new UnauthorizedException('User does not exist or is unauthorized');
-    }
+    this.verifySelfOperation(id, user);
     return this.userService.remove(id);
   }
 }
