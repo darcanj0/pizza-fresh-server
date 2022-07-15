@@ -12,6 +12,8 @@ import {
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { LoggedUser } from 'src/auth/logged-user.decorator.dto';
+import { User } from 'src/user/entities/user.entity';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { Order } from './entities/order.entity';
 import { OrderService } from './order.service';
@@ -27,8 +29,9 @@ export class OrderController {
   @ApiOperation({
     summary: 'Create a new order',
   })
-  create(@Body() createOrderDto: CreateOrderDto): Promise<Order> {
-    return this.orderService.create(createOrderDto);
+  create(@Body() createOrderDto: CreateOrderDto, @LoggedUser() user: User): Promise<Order> {
+    const id = user.id;
+    return this.orderService.create(createOrderDto, id);
   }
 
   @Get()

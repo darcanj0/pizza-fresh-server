@@ -21,11 +21,11 @@ export class OrderService {
     created_at: true,
   };
 
-  create(dto: CreateOrderDto): Promise<Order> {
+  create(dto: CreateOrderDto, id: string): Promise<Order> {
     const data: Prisma.orderCreateInput = {
       active: dto.active,
       table: { connect: { number: dto.table_number } },
-      user: { connect: { id: dto.user_id } },
+      user: { connect: { id } },
       products: {
         createMany: {
           data: dto.products.map((product: OrderProducts) => ({
