@@ -10,13 +10,6 @@ import {
 import { OrderProductsDto } from './order-products.dto';
 
 export class CreateOrderDto {
-  @IsUUID()
-  @ApiProperty({
-    description: 'Id from the user that made the order',
-    example: 'Insert the user ID here',
-  })
-  user_id: string;
-
   @IsInt()
   @IsPositive()
   @ApiProperty({

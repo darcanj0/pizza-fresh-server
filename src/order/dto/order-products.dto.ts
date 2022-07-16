@@ -17,6 +17,10 @@ export class OrderProductsDto {
     example: 2,
   })
   quantity: number;
-  
-  observation: string;
+
+  @ApiProperty({
+    description: 'Any observation to the product',
+    default: null,
+  })
+  observation?: string;
 }
