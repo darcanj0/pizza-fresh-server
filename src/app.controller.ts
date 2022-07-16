@@ -14,7 +14,6 @@ export class AppController {
   })
   getAppStatus(@Req() req: Request) {
     const baseURL: string = req.protocol + '://' + req.get('host');
-    console.log(baseURL)
     return this.appService.getAppStatus(baseURL);
   }
 }
