@@ -5,7 +5,7 @@
 [circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
 [circleci-url]: https://circleci.com/gh/nestjs/nest
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
+  <p align="center"></p>
     <p align="center">
 <a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
 <a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
@@ -22,56 +22,65 @@
   <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
+# Pizza Fresh Server
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Educational project developed in the 4th module of my Web Development course at Blue EdTech. It consists in an API designed for helping the management of a ficticious pizza restaurant.
 
-[Check Swagger docs if you are running locally](http://localhost:3001/api)
+## Prerequisites
 
-[Check production environment docs](https://pizza-fresh-server-production-87fe.up.railway.app/api/)
+To run this application locally you'll need:
 
-## Cloning
+- **Node js** v16.15.0 or superior; (https://nodejs.org/en/download/)
+- **NPM** v8.5.5 or superior;
+- **Nest js** v8.5.5 or superior; (https://docs.nestjs.com/)
+- **PostgresSQL** v8.2.6 or superior. (https://www.postgresql.org/download/)
 
-```bash
-$ git clone https://github.com/darcanj0/steam-project.git
-```
+## Documentation
 
+- [Documentation (development)](https://pizza-fresh-server-development.up.railway.app/api/)
+- [Documentation (production)](https://pizza-fresh-server-production-87fe.up.railway.app/api/)
+- [Documentation (local)](https://localhost:3001/api)
 
-## Installation
+## Cloning and running
 
-```bash
-$ npm install
-```
-
-## Running the app
-
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
-```
-
-## Test
+Cloning
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+  $ git clone https://github.com/darcanj0/steam-project.git
+  $ cd pizza-fresh-server
 ```
 
-## Support
+## Environment Variables
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+To run this project, you will need to add the following environment variables to your .env file
+
+`DATABASE_URL`
+
+`JWT_SECRET`
+
+## Run Locally
+
+Go to the project directory
+
+```bash
+  cd pizza-fresh-server
+```
+
+Install dependencies
+
+```bash
+  npm install
+```
+
+Start the server
+
+```bash
+  npm run start:dev
+```
+
+## Authors
+
+- [@darcanj0](https://www.github.com/darcanj0)
 
 ## License
 
